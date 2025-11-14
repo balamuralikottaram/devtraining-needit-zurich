@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="37a8c2bbc3497610a6fcdacc050131e3" extends="task" label="IT Access Request" max_length="40" name="x_58872_needit_u_it_access_request" type="collection">
+        <element label="Justification" max_length="40" name="justification" type="string"/>
+        <element label="Request Number" max_length="40" name="request_number" type="string"/>
+        <element label="Application Name" max_length="40" name="application_name" type="string"/>
+        <element choice="1" label="Access Type" max_length="40" name="access_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Application" value="application"/>
+                <element inactive_on_update="false" label="Database" value="database"/>
+                <element inactive_on_update="false" label="Admin" value="admin"/>
+            </choice>
+        </element>
+        <element label="Requested By" max_length="40" name="requested_by" reference="sys_user" type="reference"/>
+        <element label="Manager" max_length="40" name="manager" reference="sys_user" type="reference"/>
+        <element choice="1" display="true" label="Status" max_length="40" name="status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Completed" value="Completed"/>
+                <element inactive_on_update="false" label="New" value="New"/>
+                <element inactive_on_update="false" label="In Progress" value="In Progress"/>
+                <element inactive_on_update="false" label="Rejected" value="Rejected"/>
+            </choice>
+        </element>
+        <element label="Manager Approval" max_length="40" name="manager_approval" type="boolean"/>
+    </element>
+</database>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_58872_needit.ITAccessUtils</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>ITAccessUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var ITAccessUtils = Class.create();
+ITAccessUtils.prototype = {
+    initialize: function() {},
+
+    // Return manager sys_id for a user
+    getManager: function(userSysId) {
+		gs.info('script include 1 ', userGr);
+        if (!userSysId) return '';
+        var userGr = new GlideRecord('sys_user');
+		gs.info('script include ', userGr.manager);
+        if (userGr.get(userSysId) && userGr.manager) {
+            return userGr.manager.toString();
+        }
+        return '';
+    },
+
+    // Check active duplicate requests for same user + access type (+ app when applicable).
+    // Returns "true" if duplicate found, else "false".
+    hasActiveDuplicate: function(userSysId, accessType, applicationName) {
+        if (!userSysId || !accessType) return false;
+        var gr = new GlideRecord('x_58872_needit_u_it_access_request');
+        gr.addQuery('requested_by', userSysId);
+        gr.addQuery('access_type', accessType);
+        // Active statuses: New, In Progress (change to whatever statuses you consider active)
+        gr.addQuery('status', 'IN', 'New,In Progress');
+        if (accessType === 'Application' && applicationName) {
+            gr.addQuery('application_name', applicationName);
+        }
+        gr.query();
+        return gr.hasNext();
+    },
+
+    // Utility to generate next request number (optional: can use number maintenance table)
+    generateRequestNumber: function() {
+        // Simple approach: prefix + timestamp
+        var ts = new GlideDateTime().getNumericValue().toString();
+        return 'ITREQ-' + ts;
+    },
+
+    type: 'ITAccessUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-11-13 13:50:20</sys_created_on>
+        <sys_id>e5262ab3c34d7610a6fcdacc0501311a</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>ITAccessUtils</sys_name>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sys_script_include_e5262ab3c34d7610a6fcdacc0501311a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-11-14 07:34:34</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>e5262ab3c34d7610a6fcdacc0501311a</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-11-13 13:50:20</sys_created_on>
+        <sys_id>1de66ef3c34d7610a6fcdacc05013184</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-11-13 13:50:20</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>
